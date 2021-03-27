@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
+using TharineWebApi.ViewModel;
 namespace TharineWebApi.Repository
 {
-    interface IUserService
+    public interface IUserService
     {
+        string ValidateUser(LoginViewModel viewModel);
     }
 }

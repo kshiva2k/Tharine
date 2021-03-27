@@ -32,12 +32,12 @@ namespace TharineWebApi
             string conStr = this.Configuration.GetConnectionString("DefaultConnection");
             services.AddControllers();
             services.AddDbContext<tharineContext>(options => options.UseMySQL(conStr));
-            services.AddSession(options =>
-            {
-                options.IdleTimeout = TimeSpan.FromMinutes(10);
-            });
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddSingleton<IUserService, UserService>();
+            //services.AddSession(options =>
+            //{
+            //    options.IdleTimeout = TimeSpan.FromMinutes(10);
+            //});
+            //services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddScoped<IUserService, UserService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -47,7 +47,7 @@ namespace TharineWebApi
             {
                 app.UseDeveloperExceptionPage();
             }
-            app.UseSession();
+            //app.UseSession();
             app.UseRouting();
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
