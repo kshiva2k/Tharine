@@ -5,6 +5,11 @@ namespace TharineWebApi.Models
 {
     public partial class Productmaster
     {
+        public Productmaster()
+        {
+            Purchaseorderdetail = new HashSet<Purchaseorderdetail>();
+        }
+
         public int Id { get; set; }
         public int Categoryid { get; set; }
         public string Code { get; set; }
@@ -14,5 +19,6 @@ namespace TharineWebApi.Models
         public int? Active { get; set; }
 
         public virtual Productcategorymaster Category { get; set; }
+        public virtual ICollection<Purchaseorderdetail> Purchaseorderdetail { get; set; }
     }
 }

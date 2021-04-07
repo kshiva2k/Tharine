@@ -18,8 +18,11 @@ namespace TharineWebApi.Models
         public virtual DbSet<Clientmaster> Clientmaster { get; set; }
         public virtual DbSet<Clientsubscriptions> Clientsubscriptions { get; set; }
         public virtual DbSet<Customermaster> Customermaster { get; set; }
+        public virtual DbSet<Lookuppurchaseorder> Lookuppurchaseorder { get; set; }
         public virtual DbSet<Productcategorymaster> Productcategorymaster { get; set; }
         public virtual DbSet<Productmaster> Productmaster { get; set; }
+        public virtual DbSet<Purchaseorder> Purchaseorder { get; set; }
+        public virtual DbSet<Purchaseorderdetail> Purchaseorderdetail { get; set; }
         public virtual DbSet<Rolemaster> Rolemaster { get; set; }
         public virtual DbSet<Servicemaster> Servicemaster { get; set; }
         public virtual DbSet<Usermaster> Usermaster { get; set; }
@@ -180,6 +183,24 @@ namespace TharineWebApi.Models
                     .IsUnicode(false);
             });
 
+            modelBuilder.Entity<Lookuppurchaseorder>(entity =>
+            {
+                entity.ToTable("lookuppurchaseorder");
+
+                entity.Property(e => e.Id)
+                    .HasColumnName("id")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.Active)
+                    .HasColumnName("active")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.Name)
+                    .HasColumnName("name")
+                    .HasMaxLength(45)
+                    .IsUnicode(false);
+            });
+
             modelBuilder.Entity<Productcategorymaster>(entity =>
             {
                 entity.ToTable("productcategorymaster");
@@ -269,6 +290,118 @@ namespace TharineWebApi.Models
                     .HasForeignKey(d => d.Categoryid)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("p_category");
+            });
+
+            modelBuilder.Entity<Purchaseorder>(entity =>
+            {
+                entity.ToTable("purchaseorder");
+
+                entity.HasIndex(e => e.Clientid)
+                    .HasName("po_client_idx");
+
+                entity.HasIndex(e => e.Userid)
+                    .HasName("po_user_idx");
+
+                entity.Property(e => e.Id)
+                    .HasColumnName("id")
+                    .HasColumnType("bigint(5)");
+
+                entity.Property(e => e.Clientid)
+                    .HasColumnName("clientid")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.Createdby)
+                    .HasColumnName("createdby")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.Createddate).HasColumnName("createddate");
+
+                entity.Property(e => e.Deliveredby)
+                    .HasColumnName("deliveredby")
+                    .HasMaxLength(200)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Deliverydate).HasColumnName("deliverydate");
+
+                entity.Property(e => e.Ispaid)
+                    .HasColumnName("ispaid")
+                    .HasColumnType("bit(1)")
+                    .HasDefaultValueSql("b'0'");
+
+                entity.Property(e => e.Ponumber)
+                    .HasColumnName("ponumber")
+                    .HasMaxLength(15)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Status)
+                    .HasColumnName("status")
+                    .HasColumnType("int(11)")
+                    .HasDefaultValueSql("'1'");
+
+                entity.Property(e => e.Totalamount)
+                    .HasColumnName("totalamount")
+                    .HasColumnType("decimal(8,2)");
+
+                entity.Property(e => e.Userid)
+                    .HasColumnName("userid")
+                    .HasColumnType("int(11)");
+
+                entity.HasOne(d => d.Client)
+                    .WithMany(p => p.Purchaseorder)
+                    .HasForeignKey(d => d.Clientid)
+                    .HasConstraintName("po_client");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.Purchaseorder)
+                    .HasForeignKey(d => d.Userid)
+                    .HasConstraintName("po_user");
+            });
+
+            modelBuilder.Entity<Purchaseorderdetail>(entity =>
+            {
+                entity.ToTable("purchaseorderdetail");
+
+                entity.HasIndex(e => e.Productid)
+                    .HasName("pod_product_idx");
+
+                entity.HasIndex(e => e.Purchaseorderid)
+                    .HasName("pod_productmaster_idx");
+
+                entity.Property(e => e.Id)
+                    .HasColumnName("id")
+                    .HasColumnType("bigint(5)");
+
+                entity.Property(e => e.Amount)
+                    .HasColumnName("amount")
+                    .HasColumnType("decimal(8,2)");
+
+                entity.Property(e => e.Productid)
+                    .HasColumnName("productid")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.Purchaseorderid)
+                    .HasColumnName("purchaseorderid")
+                    .HasColumnType("bigint(5)");
+
+                entity.Property(e => e.Quantity)
+                    .HasColumnName("quantity")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.Status)
+                    .HasColumnName("status")
+                    .HasColumnType("int(11)")
+                    .HasDefaultValueSql("'1'");
+
+                entity.HasOne(d => d.Product)
+                    .WithMany(p => p.Purchaseorderdetail)
+                    .HasForeignKey(d => d.Productid)
+                    .HasConstraintName("pod_product");
+
+                entity.HasOne(d => d.Purchaseorder)
+                    .WithMany(p => p.Purchaseorderdetail)
+                    .HasForeignKey(d => d.Purchaseorderid)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("pod_productmaster");
             });
 
             modelBuilder.Entity<Rolemaster>(entity =>

@@ -5,6 +5,11 @@ namespace TharineWebApi.Models
 {
     public partial class Usermaster
     {
+        public Usermaster()
+        {
+            Purchaseorder = new HashSet<Purchaseorder>();
+        }
+
         public int Id { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
@@ -16,5 +21,6 @@ namespace TharineWebApi.Models
         public virtual Clientmaster Client { get; set; }
         public virtual Customermaster Customer { get; set; }
         public virtual Rolemaster Role { get; set; }
+        public virtual ICollection<Purchaseorder> Purchaseorder { get; set; }
     }
 }

@@ -9,6 +9,7 @@ namespace TharineWebApi.Models
         {
             Clientsubscriptions = new HashSet<Clientsubscriptions>();
             Productcategorymaster = new HashSet<Productcategorymaster>();
+            Purchaseorder = new HashSet<Purchaseorder>();
             Usermaster = new HashSet<Usermaster>();
         }
 
@@ -27,6 +28,7 @@ namespace TharineWebApi.Models
 
         public virtual ICollection<Clientsubscriptions> Clientsubscriptions { get; set; }
         public virtual ICollection<Productcategorymaster> Productcategorymaster { get; set; }
+        public virtual ICollection<Purchaseorder> Purchaseorder { get; set; }
         public virtual ICollection<Usermaster> Usermaster { get; set; }
     }
 }
