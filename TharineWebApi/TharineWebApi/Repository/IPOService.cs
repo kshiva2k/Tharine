@@ -6,8 +6,8 @@ namespace TharineWebApi.Repository
 {
     public interface IPOService
     {
-        bool AddProduct(ProductDetailViewModel viewModel);
-        bool UpdateProduct(ProductDetailViewModel viewModel);
-        bool DeleteProduct(ProductDetailViewModel viewModel);
+        //bool AddProduct(ProductViewModel viewModel);
+        //bool UpdateProduct(ProductViewModel viewModel);
+        //bool DeleteProduct(ProductViewModel viewModel);
     }
 }

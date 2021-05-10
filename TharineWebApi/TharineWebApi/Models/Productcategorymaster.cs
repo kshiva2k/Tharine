@@ -7,7 +7,7 @@ namespace TharineWebApi.Models
     {
         public Productcategorymaster()
         {
-            Productmaster = new HashSet<Productmaster>();
+            Subcategorymaster = new HashSet<Subcategorymaster>();
         }
 
         public int Id { get; set; }
@@ -18,6 +18,6 @@ namespace TharineWebApi.Models
 
         public virtual Clientmaster Client { get; set; }
         public virtual Servicemaster Service { get; set; }
-        public virtual ICollection<Productmaster> Productmaster { get; set; }
+        public virtual ICollection<Subcategorymaster> Subcategorymaster { get; set; }
     }
 }

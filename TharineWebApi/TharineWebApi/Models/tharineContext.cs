@@ -25,6 +25,7 @@ namespace TharineWebApi.Models
         public virtual DbSet<Purchaseorderdetail> Purchaseorderdetail { get; set; }
         public virtual DbSet<Rolemaster> Rolemaster { get; set; }
         public virtual DbSet<Servicemaster> Servicemaster { get; set; }
+        public virtual DbSet<Subcategorymaster> Subcategorymaster { get; set; }
         public virtual DbSet<Usermaster> Usermaster { get; set; }
 
 //        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -249,8 +250,8 @@ namespace TharineWebApi.Models
             {
                 entity.ToTable("productmaster");
 
-                entity.HasIndex(e => e.Categoryid)
-                    .HasName("p_category_idx");
+                entity.HasIndex(e => e.Subcategoryid)
+                    .HasName("product_subcategory_idx");
 
                 entity.Property(e => e.Id)
                     .HasColumnName("id")
@@ -261,9 +262,9 @@ namespace TharineWebApi.Models
                     .HasColumnType("int(11)")
                     .HasDefaultValueSql("'1'");
 
-                entity.Property(e => e.Categoryid)
-                    .HasColumnName("categoryid")
-                    .HasColumnType("int(11)");
+                entity.Property(e => e.Cgstpercent)
+                    .HasColumnName("CGSTPercent")
+                    .HasColumnType("decimal(6,2)");
 
                 entity.Property(e => e.Code)
                     .HasColumnName("code")
@@ -275,21 +276,68 @@ namespace TharineWebApi.Models
                     .HasMaxLength(500)
                     .IsUnicode(false);
 
+                entity.Property(e => e.Expirydate).HasColumnName("expirydate");
+
+                entity.Property(e => e.Image1)
+                    .HasColumnName("image1")
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Image2)
+                    .HasColumnName("image2")
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Image3)
+                    .HasColumnName("image3")
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Image4)
+                    .HasColumnName("image4")
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.Manufacturer)
                     .HasColumnName("manufacturer")
                     .HasMaxLength(500)
                     .IsUnicode(false);
+
+                entity.Property(e => e.Marketprice)
+                    .HasColumnName("marketprice")
+                    .HasColumnType("decimal(8,2)");
 
                 entity.Property(e => e.Name)
                     .HasColumnName("name")
                     .HasMaxLength(200)
                     .IsUnicode(false);
 
-                entity.HasOne(d => d.Category)
+                entity.Property(e => e.Saleprice)
+                    .HasColumnName("saleprice")
+                    .HasColumnType("decimal(8,2)");
+
+                entity.Property(e => e.Sgstpercent)
+                    .HasColumnName("SGSTPercent")
+                    .HasColumnType("decimal(6,2)");
+
+                entity.Property(e => e.Size)
+                    .HasColumnName("size")
+                    .HasMaxLength(15)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Stock)
+                    .HasColumnName("stock")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.Subcategoryid)
+                    .HasColumnName("subcategoryid")
+                    .HasColumnType("int(11)");
+
+                entity.HasOne(d => d.Subcategory)
                     .WithMany(p => p.Productmaster)
-                    .HasForeignKey(d => d.Categoryid)
+                    .HasForeignKey(d => d.Subcategoryid)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("p_category");
+                    .HasConstraintName("product_subcategory");
             });
 
             modelBuilder.Entity<Purchaseorder>(entity =>
@@ -440,6 +488,38 @@ namespace TharineWebApi.Models
                     .HasColumnName("name")
                     .HasMaxLength(45)
                     .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<Subcategorymaster>(entity =>
+            {
+                entity.ToTable("subcategorymaster");
+
+                entity.HasIndex(e => e.Categoryid)
+                    .HasName("cat_subcategory_idx");
+
+                entity.Property(e => e.Id)
+                    .HasColumnName("id")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.Active)
+                    .HasColumnName("active")
+                    .HasColumnType("int(11)")
+                    .HasDefaultValueSql("'1'");
+
+                entity.Property(e => e.Categoryid)
+                    .HasColumnName("categoryid")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.Name)
+                    .HasColumnName("name")
+                    .HasMaxLength(200)
+                    .IsUnicode(false);
+
+                entity.HasOne(d => d.Category)
+                    .WithMany(p => p.Subcategorymaster)
+                    .HasForeignKey(d => d.Categoryid)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("cat_subcategory");
             });
 
             modelBuilder.Entity<Usermaster>(entity =>
