@@ -5,11 +5,6 @@ namespace TharineWebApi.Models
 {
     public partial class Productmaster
     {
-        public Productmaster()
-        {
-            Purchaseorderdetail = new HashSet<Purchaseorderdetail>();
-        }
-
         public int Id { get; set; }
         public int Subcategoryid { get; set; }
         public string Code { get; set; }
@@ -27,10 +22,10 @@ namespace TharineWebApi.Models
         public string Image2 { get; set; }
         public string Image3 { get; set; }
         public string Image4 { get; set; }
+        public string Bigimage { get; set; }
         public string Keywords { get; set; }
         public int? Active { get; set; }
 
         public virtual Subcategorymaster Subcategory { get; set; }
-        public virtual ICollection<Purchaseorderdetail> Purchaseorderdetail { get; set; }
     }
 }

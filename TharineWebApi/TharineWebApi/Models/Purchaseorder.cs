@@ -5,11 +5,6 @@ namespace TharineWebApi.Models
 {
     public partial class Purchaseorder
     {
-        public Purchaseorder()
-        {
-            Purchaseorderdetail = new HashSet<Purchaseorderdetail>();
-        }
-
         public long Id { get; set; }
         public string Ponumber { get; set; }
         public int? Clientid { get; set; }
@@ -24,6 +19,5 @@ namespace TharineWebApi.Models
 
         public virtual Clientmaster Client { get; set; }
         public virtual Usermaster User { get; set; }
-        public virtual ICollection<Purchaseorderdetail> Purchaseorderdetail { get; set; }
     }
 }

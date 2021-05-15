@@ -91,5 +91,84 @@ namespace TharineWebApi.Services
         //        return false;
         //    }
         //}
+        public void AddToCart(CartViewModel model)
+        {
+            var list = context.Purchaseorderdraft.Where(p => p.Userid == model.UserId).ToList();
+            var draft = context.Purchaseorderdraft.Where(li => li.Productid == model.ProductId).FirstOrDefault();
+            if(draft == null)
+            {
+                Purchaseorderdraft poDraft = new Purchaseorderdraft()
+                {
+                    Productid = model.ProductId,
+                    Amount = model.Amount,
+                    Quantity = model.Quantity,
+                    Userid = model.UserId
+                };
+                context.Purchaseorderdraft.Add(poDraft);                
+            }
+            else
+            {
+                draft.Quantity += model.Quantity;
+                draft.Amount += model.Amount;
+            }
+            context.SaveChanges();
+        }
+        public List<CartViewModel> GetProductInDraft(int userId)
+        {
+            var list = context.Purchaseorderdraft.Where(p => p.Userid == userId)
+                .Select(p => new CartViewModel()
+                {
+                    Id = p.Id,
+                    ProductId = p.Productid.Value,
+                    Amount = p.Amount.Value,
+                    Quantity = p.Quantity.Value
+                }).ToList();
+            foreach(var item in list)
+            {
+                Productmaster pro = context.Productmaster.Where(p => p.Id == item.ProductId).FirstOrDefault();
+                item.Name = pro.Name;
+                item.Description = pro.Description;
+                item.Image1 = pro.Image1;
+            }
+            return list;
+        }
+        public void DeleteFromCart(int _productId, int _userId)
+        {
+            var record = context.Purchaseorderdraft.Where(po => po.Productid == _productId && po.Userid == _userId).FirstOrDefault();
+            context.Purchaseorderdraft.Remove(record);
+            context.SaveChanges();
+        }
+        public bool ConfirmOrder(int _userId)
+        {
+            try
+            {
+                var draft = context.Purchaseorderdraft.Where(p => p.Userid == _userId).ToList();
+                Purchaseorder PO = new Purchaseorder()
+                {
+                    Clientid = 1,
+                    Totalamount = draft.Sum(p => p.Amount).Value,
+                    Ponumber = "", // Logic for Order Number generation to be discussed
+                    Createdby = _userId,
+                    Createddate = DateTime.Now
+                };
+                context.Purchaseorder.Add(PO);
+                foreach(var item in draft)
+                {
+                    context.Purchaseorderdetail.Add(new Purchaseorderdetail()
+                    {
+                        Purchaseorderid = PO.Id,
+                        Productid = item.Productid,
+                        Quantity = item.Quantity,
+                        Amount = item.Amount
+                    });
+                }
+                context.SaveChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
     }
 }

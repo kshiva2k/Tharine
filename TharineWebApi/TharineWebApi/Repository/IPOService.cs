@@ -9,5 +9,9 @@ namespace TharineWebApi.Repository
         //bool AddProduct(ProductViewModel viewModel);
         //bool UpdateProduct(ProductViewModel viewModel);
         //bool DeleteProduct(ProductViewModel viewModel);
+        void AddToCart(CartViewModel model);
+        void DeleteFromCart(int _productId, int _userId);
+        bool ConfirmOrder(int _userId);
+        List<CartViewModel> GetProductInDraft(int userId);
     }
 }

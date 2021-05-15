@@ -6,7 +6,7 @@ using TharineWebApi.Repository;
 using TharineWebApi.ViewModel;
 namespace TharineWebApi.Services
 {
-    public class ProductService
+    public class ProductService : IProductService
     {
         tharineContext context { get; }
         public ProductService(tharineContext _tharineContext)

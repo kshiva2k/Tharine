@@ -18,11 +18,11 @@ namespace TharineWebApi.Models
         public virtual DbSet<Clientmaster> Clientmaster { get; set; }
         public virtual DbSet<Clientsubscriptions> Clientsubscriptions { get; set; }
         public virtual DbSet<Customermaster> Customermaster { get; set; }
-        public virtual DbSet<Lookuppurchaseorder> Lookuppurchaseorder { get; set; }
         public virtual DbSet<Productcategorymaster> Productcategorymaster { get; set; }
         public virtual DbSet<Productmaster> Productmaster { get; set; }
         public virtual DbSet<Purchaseorder> Purchaseorder { get; set; }
         public virtual DbSet<Purchaseorderdetail> Purchaseorderdetail { get; set; }
+        public virtual DbSet<Purchaseorderdraft> Purchaseorderdraft { get; set; }
         public virtual DbSet<Rolemaster> Rolemaster { get; set; }
         public virtual DbSet<Servicemaster> Servicemaster { get; set; }
         public virtual DbSet<Subcategorymaster> Subcategorymaster { get; set; }
@@ -43,13 +43,10 @@ namespace TharineWebApi.Models
             {
                 entity.ToTable("clientmaster");
 
-                entity.Property(e => e.Id)
-                    .HasColumnName("id")
-                    .HasColumnType("int(11)");
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Active)
                     .HasColumnName("active")
-                    .HasColumnType("int(11)")
                     .HasDefaultValueSql("'1'");
 
                 entity.Property(e => e.Address)
@@ -87,9 +84,7 @@ namespace TharineWebApi.Models
                     .HasMaxLength(200)
                     .IsUnicode(false);
 
-                entity.Property(e => e.Minimumorderamount)
-                    .HasColumnName("minimumorderamount")
-                    .HasColumnType("int(11)");
+                entity.Property(e => e.Minimumorderamount).HasColumnName("minimumorderamount");
 
                 entity.Property(e => e.Name)
                     .IsRequired()
@@ -113,24 +108,17 @@ namespace TharineWebApi.Models
                 entity.HasIndex(e => e.Serviceid)
                     .HasName("cs_service_idx");
 
-                entity.Property(e => e.Id)
-                    .HasColumnName("id")
-                    .HasColumnType("int(11)");
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Active)
                     .HasColumnName("active")
-                    .HasColumnType("int(11)")
                     .HasDefaultValueSql("'1'");
 
-                entity.Property(e => e.Clientid)
-                    .HasColumnName("clientid")
-                    .HasColumnType("int(11)");
+                entity.Property(e => e.Clientid).HasColumnName("clientid");
 
                 entity.Property(e => e.Fromdate).HasColumnName("fromdate");
 
-                entity.Property(e => e.Serviceid)
-                    .HasColumnName("serviceid")
-                    .HasColumnType("int(11)");
+                entity.Property(e => e.Serviceid).HasColumnName("serviceid");
 
                 entity.Property(e => e.Todate).HasColumnName("todate");
 
@@ -149,13 +137,10 @@ namespace TharineWebApi.Models
             {
                 entity.ToTable("customermaster");
 
-                entity.Property(e => e.Id)
-                    .HasColumnName("id")
-                    .HasColumnType("int(11)");
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Active)
                     .HasColumnName("active")
-                    .HasColumnType("int(11)")
                     .HasDefaultValueSql("'1'");
 
                 entity.Property(e => e.Address)
@@ -184,24 +169,6 @@ namespace TharineWebApi.Models
                     .IsUnicode(false);
             });
 
-            modelBuilder.Entity<Lookuppurchaseorder>(entity =>
-            {
-                entity.ToTable("lookuppurchaseorder");
-
-                entity.Property(e => e.Id)
-                    .HasColumnName("id")
-                    .HasColumnType("int(11)");
-
-                entity.Property(e => e.Active)
-                    .HasColumnName("active")
-                    .HasColumnType("int(11)");
-
-                entity.Property(e => e.Name)
-                    .HasColumnName("name")
-                    .HasMaxLength(45)
-                    .IsUnicode(false);
-            });
-
             modelBuilder.Entity<Productcategorymaster>(entity =>
             {
                 entity.ToTable("productcategorymaster");
@@ -212,27 +179,20 @@ namespace TharineWebApi.Models
                 entity.HasIndex(e => e.Serviceid)
                     .HasName("pc_service_idx");
 
-                entity.Property(e => e.Id)
-                    .HasColumnName("id")
-                    .HasColumnType("int(11)");
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Active)
                     .HasColumnName("active")
-                    .HasColumnType("int(11)")
                     .HasDefaultValueSql("'1'");
 
-                entity.Property(e => e.Clientid)
-                    .HasColumnName("clientid")
-                    .HasColumnType("int(11)");
+                entity.Property(e => e.Clientid).HasColumnName("clientid");
 
                 entity.Property(e => e.Name)
                     .HasColumnName("name")
                     .HasMaxLength(100)
                     .IsUnicode(false);
 
-                entity.Property(e => e.Serviceid)
-                    .HasColumnName("serviceid")
-                    .HasColumnType("int(11)");
+                entity.Property(e => e.Serviceid).HasColumnName("serviceid");
 
                 entity.HasOne(d => d.Client)
                     .WithMany(p => p.Productcategorymaster)
@@ -253,14 +213,16 @@ namespace TharineWebApi.Models
                 entity.HasIndex(e => e.Subcategoryid)
                     .HasName("product_subcategory_idx");
 
-                entity.Property(e => e.Id)
-                    .HasColumnName("id")
-                    .HasColumnType("int(11)");
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Active)
                     .HasColumnName("active")
-                    .HasColumnType("int(11)")
                     .HasDefaultValueSql("'1'");
+
+                entity.Property(e => e.Bigimage)
+                    .HasColumnName("bigimage")
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.Cgstpercent)
                     .HasColumnName("CGSTPercent")
@@ -298,6 +260,11 @@ namespace TharineWebApi.Models
                     .HasMaxLength(100)
                     .IsUnicode(false);
 
+                entity.Property(e => e.Keywords)
+                    .HasColumnName("keywords")
+                    .HasMaxLength(500)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.Manufacturer)
                     .HasColumnName("manufacturer")
                     .HasMaxLength(500)
@@ -325,13 +292,9 @@ namespace TharineWebApi.Models
                     .HasMaxLength(15)
                     .IsUnicode(false);
 
-                entity.Property(e => e.Stock)
-                    .HasColumnName("stock")
-                    .HasColumnType("int(11)");
+                entity.Property(e => e.Stock).HasColumnName("stock");
 
-                entity.Property(e => e.Subcategoryid)
-                    .HasColumnName("subcategoryid")
-                    .HasColumnType("int(11)");
+                entity.Property(e => e.Subcategoryid).HasColumnName("subcategoryid");
 
                 entity.HasOne(d => d.Subcategory)
                     .WithMany(p => p.Productmaster)
@@ -345,22 +308,16 @@ namespace TharineWebApi.Models
                 entity.ToTable("purchaseorder");
 
                 entity.HasIndex(e => e.Clientid)
-                    .HasName("po_client_idx");
+                    .HasName("pod_client_idx");
 
                 entity.HasIndex(e => e.Userid)
-                    .HasName("po_user_idx");
+                    .HasName("pod_user_idx");
 
-                entity.Property(e => e.Id)
-                    .HasColumnName("id")
-                    .HasColumnType("bigint(5)");
+                entity.Property(e => e.Id).HasColumnName("id");
 
-                entity.Property(e => e.Clientid)
-                    .HasColumnName("clientid")
-                    .HasColumnType("int(11)");
+                entity.Property(e => e.Clientid).HasColumnName("clientid");
 
-                entity.Property(e => e.Createdby)
-                    .HasColumnName("createdby")
-                    .HasColumnType("int(11)");
+                entity.Property(e => e.Createdby).HasColumnName("createdby");
 
                 entity.Property(e => e.Createddate).HasColumnName("createddate");
 
@@ -373,96 +330,80 @@ namespace TharineWebApi.Models
 
                 entity.Property(e => e.Ispaid)
                     .HasColumnName("ispaid")
-                    .HasColumnType("bit(1)")
-                    .HasDefaultValueSql("b'0'");
+                    .HasColumnType("bit(1)");
 
                 entity.Property(e => e.Ponumber)
                     .HasColumnName("ponumber")
-                    .HasMaxLength(15)
+                    .HasMaxLength(45)
                     .IsUnicode(false);
 
                 entity.Property(e => e.Status)
                     .HasColumnName("status")
-                    .HasColumnType("int(11)")
                     .HasDefaultValueSql("'1'");
 
                 entity.Property(e => e.Totalamount)
                     .HasColumnName("totalamount")
                     .HasColumnType("decimal(8,2)");
 
-                entity.Property(e => e.Userid)
-                    .HasColumnName("userid")
-                    .HasColumnType("int(11)");
+                entity.Property(e => e.Userid).HasColumnName("userid");
 
                 entity.HasOne(d => d.Client)
                     .WithMany(p => p.Purchaseorder)
                     .HasForeignKey(d => d.Clientid)
-                    .HasConstraintName("po_client");
+                    .HasConstraintName("pod_client");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Purchaseorder)
                     .HasForeignKey(d => d.Userid)
-                    .HasConstraintName("po_user");
+                    .HasConstraintName("pod_user");
             });
 
             modelBuilder.Entity<Purchaseorderdetail>(entity =>
             {
                 entity.ToTable("purchaseorderdetail");
 
-                entity.HasIndex(e => e.Productid)
-                    .HasName("pod_product_idx");
-
-                entity.HasIndex(e => e.Purchaseorderid)
-                    .HasName("pod_productmaster_idx");
-
-                entity.Property(e => e.Id)
-                    .HasColumnName("id")
-                    .HasColumnType("bigint(5)");
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Amount)
                     .HasColumnName("amount")
                     .HasColumnType("decimal(8,2)");
 
-                entity.Property(e => e.Productid)
-                    .HasColumnName("productid")
-                    .HasColumnType("int(11)");
+                entity.Property(e => e.Productid).HasColumnName("productid");
 
-                entity.Property(e => e.Purchaseorderid)
-                    .HasColumnName("purchaseorderid")
-                    .HasColumnType("bigint(5)");
+                entity.Property(e => e.Purchaseorderid).HasColumnName("purchaseorderid");
 
-                entity.Property(e => e.Quantity)
-                    .HasColumnName("quantity")
-                    .HasColumnType("int(11)");
+                entity.Property(e => e.Quantity).HasColumnName("quantity");
 
                 entity.Property(e => e.Status)
                     .HasColumnName("status")
-                    .HasColumnType("int(11)")
                     .HasDefaultValueSql("'1'");
+            });
 
-                entity.HasOne(d => d.Product)
-                    .WithMany(p => p.Purchaseorderdetail)
-                    .HasForeignKey(d => d.Productid)
-                    .HasConstraintName("pod_product");
+            modelBuilder.Entity<Purchaseorderdraft>(entity =>
+            {
+                entity.ToTable("purchaseorderdraft");
 
-                entity.HasOne(d => d.Purchaseorder)
-                    .WithMany(p => p.Purchaseorderdetail)
-                    .HasForeignKey(d => d.Purchaseorderid)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("pod_productmaster");
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Amount)
+                    .HasColumnName("amount")
+                    .HasColumnType("decimal(8,2)");
+
+                entity.Property(e => e.Productid).HasColumnName("productid");
+
+                entity.Property(e => e.Quantity).HasColumnName("quantity");
+
+                entity.Property(e => e.Userid).HasColumnName("userid");
             });
 
             modelBuilder.Entity<Rolemaster>(entity =>
             {
                 entity.ToTable("rolemaster");
 
-                entity.Property(e => e.Id)
-                    .HasColumnName("id")
-                    .HasColumnType("int(11)");
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Active)
                     .HasColumnName("active")
-                    .HasColumnType("int(11)")
                     .HasDefaultValueSql("'1'");
 
                 entity.Property(e => e.Name)
@@ -475,13 +416,10 @@ namespace TharineWebApi.Models
             {
                 entity.ToTable("servicemaster");
 
-                entity.Property(e => e.Id)
-                    .HasColumnName("id")
-                    .HasColumnType("int(11)");
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Active)
                     .HasColumnName("active")
-                    .HasColumnType("int(11)")
                     .HasDefaultValueSql("'1'");
 
                 entity.Property(e => e.Name)
@@ -497,18 +435,13 @@ namespace TharineWebApi.Models
                 entity.HasIndex(e => e.Categoryid)
                     .HasName("cat_subcategory_idx");
 
-                entity.Property(e => e.Id)
-                    .HasColumnName("id")
-                    .HasColumnType("int(11)");
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Active)
                     .HasColumnName("active")
-                    .HasColumnType("int(11)")
                     .HasDefaultValueSql("'1'");
 
-                entity.Property(e => e.Categoryid)
-                    .HasColumnName("categoryid")
-                    .HasColumnType("int(11)");
+                entity.Property(e => e.Categoryid).HasColumnName("categoryid");
 
                 entity.Property(e => e.Name)
                     .HasColumnName("name")
@@ -535,17 +468,11 @@ namespace TharineWebApi.Models
                 entity.HasIndex(e => e.Roleid)
                     .HasName("u_role_idx");
 
-                entity.Property(e => e.Id)
-                    .HasColumnName("id")
-                    .HasColumnType("int(11)");
+                entity.Property(e => e.Id).HasColumnName("id");
 
-                entity.Property(e => e.Clientid)
-                    .HasColumnName("clientid")
-                    .HasColumnType("int(11)");
+                entity.Property(e => e.Clientid).HasColumnName("clientid");
 
-                entity.Property(e => e.Customerid)
-                    .HasColumnName("customerid")
-                    .HasColumnType("int(11)");
+                entity.Property(e => e.Customerid).HasColumnName("customerid");
 
                 entity.Property(e => e.Password)
                     .IsRequired()
@@ -553,13 +480,10 @@ namespace TharineWebApi.Models
                     .HasMaxLength(100)
                     .IsUnicode(false);
 
-                entity.Property(e => e.Roleid)
-                    .HasColumnName("roleid")
-                    .HasColumnType("int(11)");
+                entity.Property(e => e.Roleid).HasColumnName("roleid");
 
                 entity.Property(e => e.Status)
                     .HasColumnName("status")
-                    .HasColumnType("int(11)")
                     .HasDefaultValueSql("'1'");
 
                 entity.Property(e => e.Username)
