@@ -20,6 +20,7 @@ namespace TharineWebApi.ViewModel
         public string Image2 { get; set; }
         public string Image3 { get; set; }
         public string Image4 { get; set; }
+        public string BigImage { get; set; }
         public string Keywords { get; set; }
         public int? Active { get; set; }
     }

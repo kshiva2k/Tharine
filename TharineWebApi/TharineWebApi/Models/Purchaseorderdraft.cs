@@ -9,6 +9,8 @@ namespace TharineWebApi.Models
         public int? Productid { get; set; }
         public int? Quantity { get; set; }
         public decimal? Amount { get; set; }
+        public decimal? Cgsttotal { get; set; }
+        public decimal? Sgsttotal { get; set; }
         public int? Userid { get; set; }
     }
 }

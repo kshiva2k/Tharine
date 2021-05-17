@@ -11,7 +11,7 @@ namespace TharineWebApi.Repository
         //bool DeleteProduct(ProductViewModel viewModel);
         void AddToCart(CartViewModel model);
         void DeleteFromCart(int _productId, int _userId);
-        bool ConfirmOrder(int _userId);
+        bool ConfirmOrder(List<int> Ids, int _userId);
         List<CartViewModel> GetProductInDraft(int userId);
     }
 }

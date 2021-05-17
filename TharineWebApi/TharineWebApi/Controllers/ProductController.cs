@@ -68,9 +68,9 @@ namespace TharineWebApi.Controllers
             return true;
         }
         [HttpPost("ConfirmOrder")]
-        public bool ConfirmOrder(int userId)
+        public bool ConfirmOrder(List<int> Ids, int userId)
         {
-            return POService.ConfirmOrder(userId);
+            return POService.ConfirmOrder(Ids, userId);
         }
     }
 }

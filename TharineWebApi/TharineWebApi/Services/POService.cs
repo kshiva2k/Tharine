@@ -95,13 +95,16 @@ namespace TharineWebApi.Services
         {
             var list = context.Purchaseorderdraft.Where(p => p.Userid == model.UserId).ToList();
             var draft = context.Purchaseorderdraft.Where(li => li.Productid == model.ProductId).FirstOrDefault();
+            var product = context.Productmaster.Where(p => p.Id == model.ProductId).FirstOrDefault();
             if(draft == null)
             {
                 Purchaseorderdraft poDraft = new Purchaseorderdraft()
                 {
                     Productid = model.ProductId,
-                    Amount = model.Amount,
+                    Amount = model.Amount * model.Quantity,
                     Quantity = model.Quantity,
+                    Sgsttotal = ((model.Amount * product.Sgstpercent) / 100) * model.Quantity,
+                    Cgsttotal = ((model.Amount * product.Cgstpercent) / 100) * model.Quantity,
                     Userid = model.UserId
                 };
                 context.Purchaseorderdraft.Add(poDraft);                
@@ -109,7 +112,9 @@ namespace TharineWebApi.Services
             else
             {
                 draft.Quantity += model.Quantity;
-                draft.Amount += model.Amount;
+                draft.Amount += (model.Amount * model.Quantity);
+                draft.Sgsttotal += ((model.Amount * product.Sgstpercent) / 100) * model.Quantity;
+                draft.Cgsttotal += ((model.Amount * product.Cgstpercent) / 100) * model.Quantity;
             }
             context.SaveChanges();
         }
@@ -121,7 +126,10 @@ namespace TharineWebApi.Services
                     Id = p.Id,
                     ProductId = p.Productid.Value,
                     Amount = p.Amount.Value,
-                    Quantity = p.Quantity.Value
+                    Quantity = p.Quantity.Value,
+                    SGST = p.Sgsttotal.Value,
+                    CGST = p.Cgsttotal.Value,
+                    Total = p.Amount.Value + p.Sgsttotal.Value + p.Cgsttotal.Value
                 }).ToList();
             foreach(var item in list)
             {
@@ -138,29 +146,40 @@ namespace TharineWebApi.Services
             context.Purchaseorderdraft.Remove(record);
             context.SaveChanges();
         }
-        public bool ConfirmOrder(int _userId)
+        public bool ConfirmOrder(List<int> Ids, int _userId)
         {
             try
             {
-                var draft = context.Purchaseorderdraft.Where(p => p.Userid == _userId).ToList();
+                List<Purchaseorderdraft> draftlist = new List<Purchaseorderdraft>();
+                decimal total = 0;
+                foreach(int id in Ids)
+                {
+                    var draft = context.Purchaseorderdraft.Where(p => p.Id == id).FirstOrDefault();
+                    draftlist.Add(draft);
+                    total += draft.Amount.Value + draft.Cgsttotal.Value + draft.Sgsttotal.Value;
+                }
                 Purchaseorder PO = new Purchaseorder()
                 {
                     Clientid = 1,
-                    Totalamount = draft.Sum(p => p.Amount).Value,
+                    Totalamount = total,
                     Ponumber = "", // Logic for Order Number generation to be discussed
                     Createdby = _userId,
                     Createddate = DateTime.Now
                 };
                 context.Purchaseorder.Add(PO);
-                foreach(var item in draft)
+                foreach(var item in draftlist)
                 {
                     context.Purchaseorderdetail.Add(new Purchaseorderdetail()
                     {
                         Purchaseorderid = PO.Id,
                         Productid = item.Productid,
                         Quantity = item.Quantity,
-                        Amount = item.Amount
+                        Amount = item.Amount,
+                        Sgsttotal = item.Sgsttotal,
+                        Cgsttotal = item.Cgsttotal
                     });
+                    var product = context.Productmaster.Where(p => p.Id == item.Productid.Value).FirstOrDefault();
+                    product.Stock -= item.Quantity.Value;
                 }
                 context.SaveChanges();
                 return true;

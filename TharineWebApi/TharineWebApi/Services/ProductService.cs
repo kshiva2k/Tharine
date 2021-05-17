@@ -52,7 +52,7 @@ namespace TharineWebApi.Services
         }
         public List<ProductViewModel> GetProducts(string _keywords)
         {
-            return context.Productmaster.Where(x => x.Keywords.Contains(_keywords))
+            return context.Productmaster.Where(x => x.Keywords.Contains(_keywords) || x.Name.Contains(_keywords))
                 .Where(x => x.Active == 1)
                 .Select(x => new ProductViewModel()
                 {
@@ -83,7 +83,8 @@ namespace TharineWebApi.Services
                     Image1 = x.Image1,
                     Image2 = x.Image2,
                     Image3 = x.Image3,
-                    Image4 = x.Image4
+                    Image4 = x.Image4,
+                    BigImage = x.Bigimage
                 }).FirstOrDefault();
         }
     }

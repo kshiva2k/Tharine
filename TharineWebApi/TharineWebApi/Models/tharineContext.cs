@@ -221,7 +221,7 @@ namespace TharineWebApi.Models
 
                 entity.Property(e => e.Bigimage)
                     .HasColumnName("bigimage")
-                    .HasMaxLength(100)
+                    .HasMaxLength(500)
                     .IsUnicode(false);
 
                 entity.Property(e => e.Cgstpercent)
@@ -242,22 +242,22 @@ namespace TharineWebApi.Models
 
                 entity.Property(e => e.Image1)
                     .HasColumnName("image1")
-                    .HasMaxLength(100)
+                    .HasMaxLength(500)
                     .IsUnicode(false);
 
                 entity.Property(e => e.Image2)
                     .HasColumnName("image2")
-                    .HasMaxLength(100)
+                    .HasMaxLength(500)
                     .IsUnicode(false);
 
                 entity.Property(e => e.Image3)
                     .HasColumnName("image3")
-                    .HasMaxLength(100)
+                    .HasMaxLength(500)
                     .IsUnicode(false);
 
                 entity.Property(e => e.Image4)
                     .HasColumnName("image4")
-                    .HasMaxLength(100)
+                    .HasMaxLength(500)
                     .IsUnicode(false);
 
                 entity.Property(e => e.Keywords)
@@ -368,11 +368,19 @@ namespace TharineWebApi.Models
                     .HasColumnName("amount")
                     .HasColumnType("decimal(8,2)");
 
+                entity.Property(e => e.Cgsttotal)
+                    .HasColumnName("cgsttotal")
+                    .HasColumnType("decimal(8,2)");
+
                 entity.Property(e => e.Productid).HasColumnName("productid");
 
                 entity.Property(e => e.Purchaseorderid).HasColumnName("purchaseorderid");
 
                 entity.Property(e => e.Quantity).HasColumnName("quantity");
+
+                entity.Property(e => e.Sgsttotal)
+                    .HasColumnName("sgsttotal")
+                    .HasColumnType("decimal(8,2)");
 
                 entity.Property(e => e.Status)
                     .HasColumnName("status")
@@ -389,9 +397,17 @@ namespace TharineWebApi.Models
                     .HasColumnName("amount")
                     .HasColumnType("decimal(8,2)");
 
+                entity.Property(e => e.Cgsttotal)
+                    .HasColumnName("cgsttotal")
+                    .HasColumnType("decimal(8,2)");
+
                 entity.Property(e => e.Productid).HasColumnName("productid");
 
                 entity.Property(e => e.Quantity).HasColumnName("quantity");
+
+                entity.Property(e => e.Sgsttotal)
+                    .HasColumnName("sgsttotal")
+                    .HasColumnType("decimal(8,2)");
 
                 entity.Property(e => e.Userid).HasColumnName("userid");
             });

@@ -11,6 +11,9 @@ namespace TharineWebApi.ViewModel
         public string Image1 { get; set; }
         public int Quantity { get; set; }
         public decimal Amount { get; set; }
+        public decimal SGST { get; set; }
+        public decimal CGST { get; set; }
+        public decimal Total { get; set; }
         public int UserId { get; set; }
     }
 }
