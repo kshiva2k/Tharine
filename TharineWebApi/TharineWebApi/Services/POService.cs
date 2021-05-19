@@ -96,7 +96,7 @@ namespace TharineWebApi.Services
             var list = context.Purchaseorderdraft.Where(p => p.Userid == model.UserId).ToList();
             var draft = context.Purchaseorderdraft.Where(li => li.Productid == model.ProductId).FirstOrDefault();
             var product = context.Productmaster.Where(p => p.Id == model.ProductId).FirstOrDefault();
-            if(draft == null)
+            if (draft == null)
             {
                 Purchaseorderdraft poDraft = new Purchaseorderdraft()
                 {
@@ -107,7 +107,7 @@ namespace TharineWebApi.Services
                     Cgsttotal = ((model.Amount * product.Cgstpercent) / 100) * model.Quantity,
                     Userid = model.UserId
                 };
-                context.Purchaseorderdraft.Add(poDraft);                
+                context.Purchaseorderdraft.Add(poDraft);
             }
             else
             {
@@ -131,7 +131,7 @@ namespace TharineWebApi.Services
                     CGST = p.Cgsttotal.Value,
                     Total = p.Amount.Value + p.Sgsttotal.Value + p.Cgsttotal.Value
                 }).ToList();
-            foreach(var item in list)
+            foreach (var item in list)
             {
                 Productmaster pro = context.Productmaster.Where(p => p.Id == item.ProductId).FirstOrDefault();
                 item.Name = pro.Name;
@@ -152,7 +152,7 @@ namespace TharineWebApi.Services
             {
                 List<Purchaseorderdraft> draftlist = new List<Purchaseorderdraft>();
                 decimal total = 0;
-                foreach(int id in Ids)
+                foreach (int id in Ids)
                 {
                     var draft = context.Purchaseorderdraft.Where(p => p.Id == id).FirstOrDefault();
                     draftlist.Add(draft);
@@ -167,7 +167,7 @@ namespace TharineWebApi.Services
                     Createddate = DateTime.Now
                 };
                 context.Purchaseorder.Add(PO);
-                foreach(var item in draftlist)
+                foreach (var item in draftlist)
                 {
                     context.Purchaseorderdetail.Add(new Purchaseorderdetail()
                     {
@@ -184,7 +184,7 @@ namespace TharineWebApi.Services
                 context.SaveChanges();
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return false;
             }

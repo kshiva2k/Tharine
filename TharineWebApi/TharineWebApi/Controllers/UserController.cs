@@ -1,8 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using TharineWebApi.Repository;
 using TharineWebApi.ViewModel;
 
@@ -13,7 +10,7 @@ namespace TharineWebApi.Controllers
     [Route("api/user")]
     public class UserController : ControllerBase
     {
-        IUserService userService { get;  }
+        IUserService userService { get; }
         public UserController(IUserService _userService)
         {
             userService = _userService;
@@ -23,7 +20,7 @@ namespace TharineWebApi.Controllers
         {
             UserViewModel view = new UserViewModel();
             int userid = userService.ValidateUser(viewModel);
-            if(userid == 0)
+            if (userid == 0)
             {
                 view.Id = userid;
                 view.Name = "Invalid credentials";

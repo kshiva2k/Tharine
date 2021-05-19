@@ -6,7 +6,7 @@ using TharineWebApi.Repository;
 using TharineWebApi.ViewModel;
 
 namespace TharineWebApi.Services
-{    
+{
     public class UserService : IUserService
     {
         tharineContext context { get; }
@@ -18,9 +18,13 @@ namespace TharineWebApi.Services
         {
             var item = context.Usermaster.Where(u => u.Status == 1 && u.Username == viewModel.Username && u.Password == viewModel.Password).FirstOrDefault();
             if (item != null)
+            {
                 return item.Id;
+            }
             else
+            {
                 return 0;
+            }
         }
         public bool AddUser(UserViewModel viewModel)
         {
@@ -46,7 +50,7 @@ namespace TharineWebApi.Services
                 context.SaveChanges();
                 return true;
             }
-            catch(Exception ex)
+            catch (Exception)
             {
                 return false;
             }
@@ -60,11 +64,11 @@ namespace TharineWebApi.Services
                 record.Name = viewModel.Name;
                 record.Address = viewModel.Address;
                 record.City = viewModel.City;
-                record.State = viewModel.State;                
+                record.State = viewModel.State;
                 context.SaveChanges();
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return false;
             }
@@ -88,7 +92,7 @@ namespace TharineWebApi.Services
                 context.SaveChanges();
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return false;
             }
@@ -108,7 +112,7 @@ namespace TharineWebApi.Services
                 context.SaveChanges();
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return false;
             }
@@ -122,7 +126,7 @@ namespace TharineWebApi.Services
                 context.SaveChanges();
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return false;
             }

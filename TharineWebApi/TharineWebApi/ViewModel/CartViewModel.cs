@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace TharineWebApi.ViewModel
+﻿namespace TharineWebApi.ViewModel
 {
     public class CartViewModel
     {

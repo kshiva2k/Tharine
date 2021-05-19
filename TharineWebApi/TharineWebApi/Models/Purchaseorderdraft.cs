@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace TharineWebApi.Models
+﻿namespace TharineWebApi.Models
 {
     public partial class Purchaseorderdraft
     {

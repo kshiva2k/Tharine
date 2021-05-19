@@ -1,8 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using TharineWebApi.Repository;
 using TharineWebApi.ViewModel;
 namespace TharineWebApi.Controllers
@@ -71,6 +68,63 @@ namespace TharineWebApi.Controllers
         public bool ConfirmOrder(List<int> Ids, int userId)
         {
             return POService.ConfirmOrder(Ids, userId);
+        }
+        [HttpPost("AddProductCategory")]
+        public bool AddProductCategory([FromBody] ProductCategoryViewModel viewModel)
+        {
+            productService.AddProductCategory(viewModel);
+            return true;
+        }
+        [HttpPost("UpdateProductCategory")]
+        public bool UpdateProductCategory([FromBody] ProductCategoryViewModel viewModel)
+        {
+            productService.UpdateProductCategory(viewModel);
+            return true;
+        }
+        [HttpGet("DeleteProductCategory")]
+        public bool DeleteProductCategory(int id)
+        {
+            productService.DeleteProductCategory(id);
+            return true;
+        }
+        [HttpPost("AddSubCategory")]
+        public bool AddSubCategory([FromBody] SubcategoryViewModel viewModel)
+        {
+            productService.AddSubcategory(viewModel);
+            return true;
+        }
+        [HttpPost("UpdateSubCategory")]
+        public bool UpdateSubCategory([FromBody] SubcategoryViewModel viewModel)
+        {
+            productService.UpdateSubCategory(viewModel);
+            return true;
+        }
+        [HttpGet("DeleteSubCategory")]
+        public bool DeleteSubCategory(int id)
+        {
+            productService.DeleteSubCategory(id);
+            return true;
+        }
+        [HttpPost("AddProduct")]
+        public bool AddProduct([FromBody] ProductViewModel viewModel)
+        {
+            // Setting up the images
+
+            // Saving the data
+            productService.AddProduct(viewModel);
+            return true;
+        }
+        [HttpPost("UpdateSubCategory")]
+        public bool UpdateProduct([FromBody] ProductViewModel viewModel)
+        {
+            productService.UpdateProduct(viewModel);
+            return true;
+        }
+        [HttpGet("DeleteProduct")]
+        public bool DeleteProduct(int id)
+        {
+            productService.DeleteProduct(id);
+            return true;
         }
     }
 }
