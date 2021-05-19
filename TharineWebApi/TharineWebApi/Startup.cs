@@ -31,6 +31,8 @@ namespace TharineWebApi
             //});
             //services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IProductService, ProductService>();
+            services.AddScoped<IPOService, POService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
