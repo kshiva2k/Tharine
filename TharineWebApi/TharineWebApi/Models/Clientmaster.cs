@@ -13,7 +13,7 @@ namespace TharineWebApi.Models
             Usermaster = new HashSet<Usermaster>();
         }
 
-        public int Id { get; set; }
+        public int  Id { get; set; }
         public string Name { get; set; }
         public string Logo { get; set; }
         public string Address { get; set; }
