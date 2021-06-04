@@ -149,5 +149,53 @@ namespace TharineWebApi.Services
                     Name = x.Name
                 }).ToList();
         }
+        public bool AddAddress(UserAddressViewModel viewModel)
+        {
+            try
+            {
+                context.Useraddress.Add(new Useraddress()
+                {
+                    Userid = viewModel.Userid,
+                    Name = viewModel.Name,
+                    Address = viewModel.Address,
+                    City = viewModel.City,
+                    State = viewModel.State,
+                    Contactnumber = viewModel.Contactnumber
+                });
+                context.SaveChanges();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+        public bool DeleteAddress(int Id)
+        {
+            try
+            {
+                var record = context.Useraddress.Where(x => x.Id == Id).FirstOrDefault();
+                context.Useraddress.Remove(record);
+                context.SaveChanges();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+        public List<UserAddressViewModel> GetAddress(int userId)
+        {
+            return context.Useraddress.Where(x => x.Userid.Value == userId)
+                .Select(a => new UserAddressViewModel()
+                {
+                    Id = a.Id,
+                    Name = a.Name,
+                    Address = a.Address,
+                    City = a.City,
+                    State = a.State,
+                    Contactnumber = a.Contactnumber
+                }).ToList();
+        }
     }
 }

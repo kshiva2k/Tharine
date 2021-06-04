@@ -51,5 +51,20 @@ namespace TharineWebApi.Controllers
         {
             return userService.GetServices();
         }
+        [HttpPost("AddAddress")]
+        public bool AddAddress([FromBody]UserAddressViewModel viewModel)
+        {
+            return userService.AddAddress(viewModel);
+        }
+        [HttpGet("DeleteAddress")]
+        public bool DeleteAddress(int id)
+        {
+            return userService.DeleteAddress(id);
+        }
+        [HttpGet("GetAddresses")]
+        public List<UserAddressViewModel> GetAllAddress(int userid)
+        {
+            return userService.GetAddress(userid);
+        }
     }
 }

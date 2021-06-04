@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace TharineWebApi.Models
 {
@@ -7,6 +8,7 @@ namespace TharineWebApi.Models
         public Usermaster()
         {
             Purchaseorder = new HashSet<Purchaseorder>();
+            Useraddress = new HashSet<Useraddress>();
         }
 
         public int Id { get; set; }
@@ -21,5 +23,6 @@ namespace TharineWebApi.Models
         public virtual Customermaster Customer { get; set; }
         public virtual Rolemaster Role { get; set; }
         public virtual ICollection<Purchaseorder> Purchaseorder { get; set; }
+        public virtual ICollection<Useraddress> Useraddress { get; set; }
     }
 }

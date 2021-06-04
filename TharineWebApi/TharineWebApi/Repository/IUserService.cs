@@ -13,5 +13,8 @@ namespace TharineWebApi.Repository
         bool DeleteEmployee(int Id);
         List<CommonViewModel> GetRoles();
         List<CommonViewModel> GetServices();
+        bool AddAddress(UserAddressViewModel viewModel);
+        bool DeleteAddress(int Id);
+        List<UserAddressViewModel> GetAddress(int userId);
     }
 }

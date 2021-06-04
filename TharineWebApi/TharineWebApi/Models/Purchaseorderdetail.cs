@@ -1,4 +1,7 @@
-﻿namespace TharineWebApi.Models
+﻿using System;
+using System.Collections.Generic;
+
+namespace TharineWebApi.Models
 {
     public partial class Purchaseorderdetail
     {

@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace TharineWebApi.Models
 {
@@ -24,16 +26,17 @@ namespace TharineWebApi.Models
         public virtual DbSet<Rolemaster> Rolemaster { get; set; }
         public virtual DbSet<Servicemaster> Servicemaster { get; set; }
         public virtual DbSet<Subcategorymaster> Subcategorymaster { get; set; }
+        public virtual DbSet<Useraddress> Useraddress { get; set; }
         public virtual DbSet<Usermaster> Usermaster { get; set; }
 
-        //        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //        {
-        //            if (!optionsBuilder.IsConfigured)
-        //            {
-        //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-        //                optionsBuilder.UseMySQL("server=127.0.0.1;port=3306;user=root;password=Mysql@2020;database=tharine");
-        //            }
-        //        }
+//        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+//        {
+//            if (!optionsBuilder.IsConfigured)
+//            {
+//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+//                optionsBuilder.UseMySQL("server=127.0.0.1;port=3306;user=root;password=Mysql@2020;database=tharine");
+//            }
+//        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -467,6 +470,48 @@ namespace TharineWebApi.Models
                     .HasForeignKey(d => d.Categoryid)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("cat_subcategory");
+            });
+
+            modelBuilder.Entity<Useraddress>(entity =>
+            {
+                entity.ToTable("useraddress");
+
+                entity.HasIndex(e => e.Userid)
+                    .HasName("useraddr_user_idx");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Address)
+                    .HasColumnName("address")
+                    .HasMaxLength(500)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.City)
+                    .HasColumnName("city")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Contactnumber)
+                    .HasColumnName("contactnumber")
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Name)
+                    .HasColumnName("name")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.State)
+                    .HasColumnName("state")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Userid).HasColumnName("userid");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.Useraddress)
+                    .HasForeignKey(d => d.Userid)
+                    .HasConstraintName("useraddr_user");
             });
 
             modelBuilder.Entity<Usermaster>(entity =>
